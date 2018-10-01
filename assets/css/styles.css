@@ -73,6 +73,7 @@ img {
 body{
     background-color: beige;
 }
+
 input:focus, textarea:focus {
     background: #000;
     border-radius: 5px;

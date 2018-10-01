@@ -57,8 +57,8 @@ $(document).ready(function() {
           "</div>" +
           "<a  target='blank' href=" +
           results[i].locations[0].url +
-          ">Showing at: " +
-          results[i].locations[0].display_name +
+          ">Showing at: " + 
+           getLocationsHtml(results[i].locations) + 
           "</a></div>";
       } else {
         html =
@@ -77,6 +77,14 @@ $(document).ready(function() {
     html = html + "</div>";
     return html;
   };
+  function getLocationsHtml(locations) { 
+      var html = "";
+    for (var i = 0; i < locations.length; i++){
+      html = html + locations[i].display_name;
+    };
+      return html;
+  };  
+   
   function addMoviesToFirebase(results) {
     for (var i = 0; i < results.length; i++) {
       database.ref().push({
