@@ -66,7 +66,19 @@ $(document).ready(function() {
           ">Showing at: " +
           results[i].locations[0].display_name +
           "</a></div>";
-      } 
+      } else {
+          html =
+          html +
+          "<div class='col-lg-3 col-md-4 col-xs-6'>" +
+          "<div>" +
+          results[i].name +
+          "</div>" +
+          "<a href=" +
+          results[i].locations[0].url +
+          ">Showing at: " +
+          results[i].locations[0].display_name +
+          "</a></div>";
+      }
     }
     html = html + "</div>";
     return html;
