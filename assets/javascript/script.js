@@ -1,5 +1,4 @@
-$("#find-movie").on("click", function (event) {
-
+$(document).ready(function () {
     var config = {
         apiKey: "AIzaSyBXh_OSGPOTI4ZxdxcJL5dcV3oByDTTVwc",
         authDomain: "andchill-eb480.firebaseapp.com",
@@ -7,46 +6,68 @@ $("#find-movie").on("click", function (event) {
         projectId: "andchill-eb480",
         storageBucket: "andchill-eb480.appspot.com",
         messagingSenderId: "198184378958"
-      };
-      firebase.initializeApp(config);
-      var database = firebase.database();
-
-    event.preventDefault();
-
-    var movie = $("#movie-input").val();
-    if (!movie) return;
-
-    var queryURL = "https://utelly-tv-shows-and-movies-availability-v1.p.mashape.com/lookup?";
-
-    var queryString = queryURL + "country=" + "uk" + "&term=" + movie;
-    getMovies(queryString);
-
-    // -----------------------------------------------------------------------
-
-});
-
-function getMovies(queryURL) {
-    $.ajax({
-        url: queryURL,
-        method: "GET",
-        headers: {
-            'X-Mashape-Key': 'dEFISQiTvwmshEJAWU2KwJRqazW0p1I0lb0jsn5LUpy7owpPJ6',
-            Accept: 'application/json'
-        }
-    }).then(function (response) {
-        if ($.isArray(response.results) && response.results.length) {
-            var html = buildHtml(response.results);
-            $("#movies").empty();
-            $("#movies").append(html);
-        };
-    });
-};
-
-function buildHtml(results) {
-    var html = "<ul>";
-    for (var i = 0; i < results.length; i++) {
-        html = html + "<li>" + "<img src='" + results[i].picture + "'></li>";
     };
-    html = html + "</ul>";
-    return html;
-}
+    firebase.initializeApp(config);
+    var database = firebase.database();
+
+    $("#find-movie").on("click", function (event) {
+
+        var movieSearch = $('#movie-input').val().trim();
+
+
+   
+     // database.ref().push({
+        //     name: movieSearch,
+        // });
+        event.preventDefault();
+
+        if (!movieSearch) return;
+        var queryURL = "https://utelly-tv-shows-and-movies-availability-v1.p.mashape.com/lookup?";
+        var queryString = queryURL + "country=" + "us" + "&term=" + movieSearch;
+        getMovies(queryString);
+        
+    });
+
+    function getMovies(queryURL) {
+        console.log(queryURL);
+        $.ajax({
+            url: queryURL,
+            method: "GET",
+            headers: {
+                'X-Mashape-Key': 'dEFISQiTvwmshEJAWU2KwJRqazW0p1I0lb0jsn5LUpy7owpPJ6',
+                Accept: 'application/json'
+            }
+        }).success(function (response) {
+            console.log(response);
+            $("#movies").empty();
+            if ($.isArray(response.results) && response.results.length) {
+                var html = buildHtml(response.results);
+                $("#movies").append(html);
+                addMoviesToFirebase(response.results);
+            };
+        });
+        console.log("returning");
+    };
+
+    function buildHtml(results) {
+        var html = " <div class='row text-center text-lg-left'>";
+
+        for (var i = 0; i < results.length; i++) {
+            html = html + "<div class='col-lg-3 col-md-4 col-xs-6'>"
+             + "<img src='" + results[i].picture + "'><div>" +
+                results[i].name + "</div>" + "<a href=" +
+                results[i].locations[0].url + ">Showing at: " + results[i].locations[0].display_name +"</a></div>";
+        };
+        html = html + "</div>";
+        return html;
+    }
+    function addMoviesToFirebase(results) {
+        for (var i = 0; i < results.length; i++) {
+            database.ref().push({
+                name: results[i].name,
+                FindOn: results[i].locations[0].display_name,
+                Image: results[i].picture
+            });
+        }
+    };
+});
