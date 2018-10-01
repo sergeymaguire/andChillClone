@@ -56,12 +56,12 @@ $(document).ready(function() {
         html =
           html +
           "<div class='col-lg-3 col-md-4 col-xs-6'>" +
-          "<img src='" +
+          "<img  alt='no image found'src='" +
           results[i].picture +
           "'><div>" +
           results[i].name +
           "</div>" +
-          "<a href=" +
+          "<a  target='blank' href=" +
           results[i].locations[0].url +
           ">Showing at: " +
           results[i].locations[0].display_name +
@@ -73,7 +73,7 @@ $(document).ready(function() {
           "<div>" +
           results[i].name +
           "</div>" +
-          "<a href=" +
+          "<a  target='_blank' href=" +
           results[i].locations[0].url +
           ">Showing at: " +
           results[i].locations[0].display_name +
