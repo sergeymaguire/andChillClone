@@ -11,13 +11,8 @@ $(document).ready(function() {
   var database = firebase.database();
 
   $("#find-movie").on("click", function(event) {
-    var movieSearch = $("#movie-input")
-      .val()
-      .trim();
-
-    // database.ref().push({
-    //     name: movieSearch,
-    // });
+    var movieSearch = $("#movie-input").val().trim();
+  
     event.preventDefault();
 
     if (!movieSearch) return;
@@ -45,7 +40,6 @@ $(document).ready(function() {
         addMoviesToFirebase(response.results);
       }
     });
-    console.log("returning");
   }
 
   function buildHtml(results) {
@@ -67,7 +61,7 @@ $(document).ready(function() {
           results[i].locations[0].display_name +
           "</a></div>";
       } else {
-          html =
+        html =
           html +
           "<div class='col-lg-3 col-md-4 col-xs-6'>" +
           "<div>" +
