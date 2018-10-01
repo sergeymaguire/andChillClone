@@ -83,6 +83,7 @@ $(document).ready(function() {
         html +
         "<a  target='blank' href=" +
         locations[i].url + ">" +
+        "<br>" +
         locations[i].display_name + "</a>";
     }
     return html;
