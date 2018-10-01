@@ -38,9 +38,9 @@ $(document).ready(function() {
         var html = buildHtml(response.results);
         $("#movies").append(html);
         addMoviesToFirebase(response.results);
-      }
+      };
     });
-  }
+  };
 
   function buildHtml(results) {
     var html = " <div class='row text-center text-lg-left'>";
@@ -72,18 +72,21 @@ $(document).ready(function() {
           ">Showing at: " +
           results[i].locations[0].display_name +
           "</a></div>";
-      }
-    }
+      };
+    };
     html = html + "</div>";
     return html;
-  }
+  };
   function addMoviesToFirebase(results) {
     for (var i = 0; i < results.length; i++) {
       database.ref().push({
         name: results[i].name,
         FindOn: results[i].locations[0].display_name,
         Image: results[i].picture
+        //phoneNumber:
+        //LocationAddress:
+        //LocationName: 
       });
-    }
-  }
+    };
+  };
 });
