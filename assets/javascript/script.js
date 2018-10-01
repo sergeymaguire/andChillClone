@@ -52,7 +52,7 @@ $(document).ready(function() {
         html =
           html +
           "<div class='col-lg-3 col-md-4 col-xs-6'>" +
-          "<img  alt='no image found'src='" +
+          "<img src='" +
           results[i].picture +
           "'><div>" +
           results[i].name +
@@ -65,12 +65,9 @@ $(document).ready(function() {
           "<div class='col-lg-3 col-md-4 col-xs-6'>" +
           "<div>" +
           results[i].name +
-          "</div>" +
-          "<a  target='_blank' href=" +
-          results[i].locations[0].url +
-          ">Showing at: " +
+          "</div>Showing at: " +
           getLocationsHtml(results[i].locations) +
-          "</a></div>";
+          "</div>";
       }
     }
     html = html + "</div>";
@@ -82,9 +79,11 @@ $(document).ready(function() {
       html =
         html +
         "<a  target='blank' href=" +
-        locations[i].url + ">" +
+        locations[i].url +
+        ">" +
         "<br>" +
-        locations[i].display_name + "</a>";
+        locations[i].display_name +
+        "</a>";
     }
     return html;
   }
