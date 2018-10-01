@@ -11,8 +11,10 @@ $(document).ready(function() {
   var database = firebase.database();
 
   $("#find-movie").on("click", function(event) {
-    var movieSearch = $("#movie-input").val().trim();
-  
+    var movieSearch = $("#movie-input")
+      .val()
+      .trim();
+
     event.preventDefault();
 
     if (!movieSearch) return;
@@ -38,9 +40,9 @@ $(document).ready(function() {
         var html = buildHtml(response.results);
         $("#movies").append(html);
         addMoviesToFirebase(response.results);
-      };
+      }
     });
-  };
+  }
 
   function buildHtml(results) {
     var html = " <div class='row text-center text-lg-left'>";
@@ -54,12 +56,9 @@ $(document).ready(function() {
           results[i].picture +
           "'><div>" +
           results[i].name +
-          "</div>" +
-          "<a  target='blank' href=" +
-          results[i].locations[0].url +
-          ">Showing at: " + 
-           getLocationsHtml(results[i].locations) + 
-          "</a></div>";
+          "</div>Showing at: " +
+          getLocationsHtml(results[i].locations) +
+          "</div>";
       } else {
         html =
           html +
@@ -70,21 +69,25 @@ $(document).ready(function() {
           "<a  target='_blank' href=" +
           results[i].locations[0].url +
           ">Showing at: " +
-          results[i].locations[0].display_name +
+          getLocationsHtml(results[i].locations) +
           "</a></div>";
-      };
-    };
+      }
+    }
     html = html + "</div>";
     return html;
-  };
-  function getLocationsHtml(locations) { 
-      var html = "";
-    for (var i = 0; i < locations.length; i++){
-      html = html + locations[i].display_name;
-    };
-      return html;
-  };  
-   
+  }
+  function getLocationsHtml(locations) {
+    var html = "";
+    for (var i = 0; i < locations.length; i++) {
+      html =
+        html +
+        "<a  target='blank' href=" +
+        locations[i].url + ">" +
+        locations[i].display_name + "</a>";
+    }
+    return html;
+  }
+
   function addMoviesToFirebase(results) {
     for (var i = 0; i < results.length; i++) {
       database.ref().push({
@@ -93,8 +96,8 @@ $(document).ready(function() {
         Image: results[i].picture
         //phoneNumber:
         //LocationAddress:
-        //LocationName: 
+        //LocationName:
       });
-    };
-  };
+    }
+  }
 });
