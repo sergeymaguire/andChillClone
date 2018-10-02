@@ -94,54 +94,77 @@ $(document).ready(function () {
       database.ref().push({
         name: results[i].name,
         FindOn: results[i].locations[0].display_name,
-        Image: results[i].picture
-        //phoneNumber:
-        //LocationAddress:
-        //LocationName:
+        Image: results[i].picture,
       });
     }
   }
 });
 
-//Gets the current location lat/lon
-
-var queryURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDB8oKKFdugWo4hKPNthhL1ouMovHmJ_Is"
-$.ajax({
-  url: queryURL,
-  method: "POST"
-}).then(function (response) {
-  console.log(response.location.lat);
-  console.log(response.location.lng)
+var geocoder,
+  lat,
+  long,
+  zip;
+navigator.geolocation.getCurrentPosition(
+  function (position) {
+    console.log(position);
 
 
-  var lat = response.location.lat
-  var lng = response.location.lng
+    lat = position.coords.latitude;
+    lng = position.coords.longitude;
+    getZipCode(lat, lng);
 
-  var queryGURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=AIzaSyDB8oKKFdugWo4hKPNthhL1ouMovHmJ_Is"
+    $("#find-movie").on("click", getFood);
+  });
 
-  //get nearby locations
 
+function initMap() {
+  geocoder = new google.maps.Geocoder;
+}
+
+function getZipCode(lat, long) {
+  var latlng = {
+    lat: lat,
+    lng: long
+  };
+  geocoder.geocode({
+    'location': latlng
+  }, function (results, status) {
+    if (status === 'OK') {
+      //console.log("geocodeLatLng " + results);
+      if (results[0]) {
+        for (j = 0; j < results[0].address_components.length; j++) {
+          if (results[0].address_components[j].types[0] == 'postal_code') {
+            console.log("Zip Code: " + results[0].address_components[j].short_name);
+            zip = results[0].address_components[j].short_name;
+            return;
+          }
+        }
+      }
+    }
+  });
+}
+
+function getFood() {
+  var queryGURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=AIzaSyDB8oKKFdugWo4hKPNthhL1ouMovHmJ_Is";
   $.ajax({
     url: queryGURL,
     method: "GET"
   }).then(function (response) {
-    console.log(response.results[3].address_components[0].long_name);
+    console.log(response.results[4].address_components[0].long_name);
 
-    var areaName = response.results[3].address_components[0].long_name
-    var YqueryURL = "https://dl-yelp-help.herokuapp.com/yelp?zip=" + areaName
+    //var areaName = response.results[4].address_components[0].long_name
+    var YqueryURL = "https://dl-yelp-help.herokuapp.com/yelp?zip=" + zip;
 
     $.ajax({
       url: YqueryURL,
       method: "GET"
     }).then(function (response) {
-      $("#find-movie").on("click", function () {
-        for (var i = 0; i < response.length; i++) {
-          var html = ""
-          html = html + "<p class='food'>" + response[i].name + "</p>" + "<p class='food'>" + response[i].location.address1 + "</p>" + "<p class='food'>" + response[i].display_phone + "</p>" + "<p class='food'>" + response[i].price + "</p>" 
-          $("#restaurant").append(html);
-        }
 
-      });
+      for (var i = 0; i < response.length; i++) {
+        var html = ""
+        html = html + "<p class='name'>" + response[i].name + "</p>" + "<p class='address'>" + response[i].location.address1 + "</p>" + "<p class='phone'>" + response[i].display_phone + "</p>" + "<p class='price'>" + response[i].price + "</p>"
+        $("#restaurant").append(html);
+      }
     });
   });
-});
+}
