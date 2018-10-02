@@ -5,7 +5,7 @@ body, head {
     max-width: 1200px;
     margin: auto;
 }
-#name, #address, #phone, #price{
+.name, .address, .phone, .price{
     margin: 5px 5px
 }
 
