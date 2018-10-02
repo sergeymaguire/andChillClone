@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   var config = {
     apiKey: "AIzaSyBXh_OSGPOTI4ZxdxcJL5dcV3oByDTTVwc",
     authDomain: "andchill-eb480.firebaseapp.com",
@@ -10,7 +10,7 @@ $(document).ready(function() {
   firebase.initializeApp(config);
   var database = firebase.database();
 
-  $("#find-movie").on("click", function(event) {
+  $("#find-movie").on("click", function (event) {
     var movieSearch = $("#movie-input")
       .val()
       .trim();
@@ -33,7 +33,7 @@ $(document).ready(function() {
         "X-Mashape-Key": "dEFISQiTvwmshEJAWU2KwJRqazW0p1I0lb0jsn5LUpy7owpPJ6",
         Accept: "application/json"
       }
-    }).success(function(response) {
+    }).success(function (response) {
       console.log(response);
       $("#movies").empty();
       if ($.isArray(response.results) && response.results.length) {
@@ -73,6 +73,7 @@ $(document).ready(function() {
     html = html + "</div>";
     return html;
   }
+
   function getLocationsHtml(locations) {
     var html = "";
     for (var i = 0; i < locations.length; i++) {
@@ -100,4 +101,47 @@ $(document).ready(function() {
       });
     }
   }
+});
+
+//Gets the current location lat/lon
+
+var queryURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDB8oKKFdugWo4hKPNthhL1ouMovHmJ_Is"
+$.ajax({
+  url: queryURL,
+  method: "POST"
+}).then(function (response) {
+  console.log(response.location.lat);
+  console.log(response.location.lng)
+
+
+  var lat = response.location.lat
+  var lng = response.location.lng
+
+  var queryGURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=AIzaSyDB8oKKFdugWo4hKPNthhL1ouMovHmJ_Is"
+
+  //get nearby locations
+
+  $.ajax({
+    url: queryGURL,
+    method: "GET"
+  }).then(function (response) {
+    console.log(response.results[3].address_components[0].long_name);
+
+    var areaName = response.results[3].address_components[0].long_name
+    var YqueryURL = "https://dl-yelp-help.herokuapp.com/yelp?zip=" + areaName
+
+    $.ajax({
+      url: YqueryURL,
+      method: "GET"
+    }).then(function (response) {
+      $("#find-movie").on("dblclick", function () {
+        for (var i = 0; i < response.length; i++) {
+          var html = ""
+          html = html + "<p class='food'>" + response[i].name + "</p>" + "<p class='food'>" + response[i].display_phone + "</p>" + "<p class='food'>" + response[i].price + "</p>"
+          $("#restaurant").append(html);
+        }
+
+      });
+    });
+  });
 });

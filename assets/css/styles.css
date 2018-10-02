@@ -5,6 +5,9 @@ body, head {
     max-width: 1200px;
     margin: auto;
 }
+.food{
+    margin: 5px 5px
+}
 
 p{
     margin-bottom: 80px;
