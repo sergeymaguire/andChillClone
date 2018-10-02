@@ -134,10 +134,10 @@ $.ajax({
       url: YqueryURL,
       method: "GET"
     }).then(function (response) {
-      $("#find-movie").on("dblclick", function () {
+      $("#find-movie").on("click", function () {
         for (var i = 0; i < response.length; i++) {
           var html = ""
-          html = html + "<p class='food'>" + response[i].name + "</p>" + "<p class='food'>" + response[i].display_phone + "</p>" + "<p class='food'>" + response[i].price + "</p>"
+          html = html + "<p class='food'>" + response[i].name + "</p>" + "<p class='food'>" + response[i].location.address1 + "</p>" + "<p class='food'>" + response[i].display_phone + "</p>" + "<p class='food'>" + response[i].price + "</p>" 
           $("#restaurant").append(html);
         }
 
