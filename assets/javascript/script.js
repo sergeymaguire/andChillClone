@@ -107,15 +107,11 @@ var geocoder,
 navigator.geolocation.getCurrentPosition(
   function (position) {
     console.log(position);
-
-
     lat = position.coords.latitude;
     lng = position.coords.longitude;
     getZipCode(lat, lng);
-
     $("#find-movie").on("click", getFood);
   });
-
 
 function initMap() {
   geocoder = new google.maps.Geocoder;
@@ -130,7 +126,6 @@ function getZipCode(lat, long) {
     'location': latlng
   }, function (results, status) {
     if (status === 'OK') {
-      //console.log("geocodeLatLng " + results);
       if (results[0]) {
         for (j = 0; j < results[0].address_components.length; j++) {
           if (results[0].address_components[j].types[0] == 'postal_code') {
@@ -151,15 +146,11 @@ function getFood() {
     method: "GET"
   }).then(function (response) {
     console.log(response.results[4].address_components[0].long_name);
-
-    //var areaName = response.results[4].address_components[0].long_name
     var YqueryURL = "https://dl-yelp-help.herokuapp.com/yelp?zip=" + zip;
-
     $.ajax({
       url: YqueryURL,
       method: "GET"
     }).then(function (response) {
-
       for (var i = 0; i < response.length; i++) {
         var html = ""
         html = html + "<p class='name'>" + response[i].name + "</p>" + "<p class='address'>" + response[i].location.address1 + "</p>" + "<p class='phone'>" + response[i].display_phone + "</p>" + "<p class='price'>" + response[i].price + "</p>"
