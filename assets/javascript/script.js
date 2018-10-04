@@ -3,14 +3,14 @@
 //Step 3. get the first zip code found in the nearby locations of the current user
 //Put on global level to be used later in function(Get zip code)
 //This is called from the index.html script link
-var geocoder;
-function getZipCode(lat, long) {
+
+function getZipCode(geocoder, lat, long) {
   var latlng = {
     lat: lat,
     lng: long
   };
   showLoading();
-  geocoder = new google.maps.Geocoder(); 
+  //geocoder = new google.maps.Geocoder(); 
   geocoder.geocode(
     //uses the global geocoder variable object
     {
@@ -34,15 +34,14 @@ function getZipCode(lat, long) {
 }
 
 function initMap() {
-  geocoder = new google.maps.Geocoder(); // sets geocoder
-}
-
+  var geocoder = new google.maps.Geocoder(); // sets geocoder
 navigator.geolocation.getCurrentPosition(function(position) {
   console.log(position);
   lat = position.coords.latitude; // sets global lat variable used in getzipcode function
   lng = position.coords.longitude; //sets global long variable used in getzipcode function
-  getZipCode(lat, lng);
+  getZipCode(geocoder, lat, lng);
 });
+}
 var lat, long, zip; //these are set and used
 //Step 2. gets the current lat and long with the built in navigator(the browser object) function
 //$(document).ready(function() {
