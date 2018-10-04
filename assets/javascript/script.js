@@ -56,7 +56,7 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 
-function zipCodeReady() {// used this instead of a document ready because all I care about is getting a zipcode
+function zipCodeReady() {// used this instead of a d
   $("#find-movie").on("click", getRestaurantsFromYelp); //going to call getfood function on the click event
   $("#find-movie").on("click", movieSearch); //Can not execute these until the zip code is returned in the above function where zipCodeReady() is being called.
 
