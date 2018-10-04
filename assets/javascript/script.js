@@ -34,13 +34,14 @@ function getZipCode(lat, long) {
 
 function initMap() {
   geocoder = new google.maps.Geocoder(); // sets geocoder
+
+  navigator.geolocation.getCurrentPosition(function(position) {
+    console.log(position);
+    lat = position.coords.latitude; // sets global lat variable used in getzipcode function
+    lng = position.coords.longitude; //sets global long variable used in getzipcode function
+    getZipCode(lat, lng);
+  });
 }
-navigator.geolocation.getCurrentPosition(function(position) {
-  console.log(position);
-  lat = position.coords.latitude; // sets global lat variable used in getzipcode function
-  lng = position.coords.longitude; //sets global long variable used in getzipcode function
-  getZipCode(lat, lng);
-});
 var lat, long, zip; //these are set and used
 //Step 2. gets the current lat and long with the built in navigator(the browser object) function
 //$(document).ready(function() {
@@ -66,7 +67,6 @@ function addMoviesToFirebase(results) {
   }
 }
 function addRecentSearch() {
-
   database
     .ref()
     .orderByChild("dateAdded")
@@ -78,22 +78,24 @@ function addRecentSearch() {
         var recentImage = snapshot.val().Image;
         var recentFind = snapshot.val().FindOn;
         var recentMovies = "";
-        if(recentImage) {
-          recentMovies = "<div class='recentSearch col-lg-3 col-md-3 col-xs-6'>" +
-          "<h4>" +
-          recentname +
-          "</h4><img src=" +
-          recentImage +
-          "><p>Find on: " +
-          recentFind +
-          "</p></div>";
+        if (recentImage) {
+          recentMovies =
+            "<div class='recentSearch col-lg-3 col-md-3 col-xs-6'>" +
+            "<h4>" +
+            recentname +
+            "</h4><img src=" +
+            recentImage +
+            "><p>Find on: " +
+            recentFind +
+            "</p></div>";
         } else {
-          recentMovies = "<div class='recentSearch col-lg-3 col-md-3 col-xs-6'>" +
-          "<h4>" +
-          recentname +
-          "</h4>Find on: " +
-          recentFind +
-          "</p></div>";
+          recentMovies =
+            "<div class='recentSearch col-lg-3 col-md-3 col-xs-6'>" +
+            "<h4>" +
+            recentname +
+            "</h4>Find on: " +
+            recentFind +
+            "</p></div>";
         }
         $("#recent").append(recentMovies);
       },
@@ -103,9 +105,8 @@ function addRecentSearch() {
     );
 }
 
-addRecentSearch();//Show list of last four movies above
+addRecentSearch(); //Show list of last four movies above
 $("#food").hide();
-
 
 function zipCodeReady() {
   // used this instead of a d
@@ -143,7 +144,7 @@ function zipCodeReady() {
         $("#movies").append(html);
         addMoviesToFirebase(response.results);
         $("#recent").empty();
-        addRecentSearch();//add the newest searched movie to the recent div
+        addRecentSearch(); //add the newest searched movie to the recent div
       }
     });
   }
