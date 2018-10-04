@@ -91,8 +91,8 @@ $(document).ready(function() {
   function buildMovieHtml(results) {
     var html = " <div class='row text-center text-lg-left'>";
 
-    for (var i = 0; i < results.length; i++) {//dynamically creating the html with javascript to load onto the DOM
-      //Using for loop to return all movies that are searched
+    for (var i = 0; i < results.length; i++) {//dynamically creating the html with javascript.
+      //Using for loop to return all movies that are searched affiliated with the name searched.
       if (results[i].picture) {
         html =
           html +
@@ -104,7 +104,7 @@ $(document).ready(function() {
           "</div>Showing at: " +
           getLocationsHtml(results[i].locations) +
           "</div>";
-      } else { // 
+      } else { //Returns just the title of the movie and where to watch it if the movie doesnt have a photo to return.
         html =
           html +
           "<div class='col-lg-3 col-md-4 col-xs-6'>" +
@@ -119,12 +119,12 @@ $(document).ready(function() {
     return html;
   }
 
-  function getLocationsHtml(locations) {
+  function getLocationsHtml(locations) {//gets the locations for movies and where to watch them 
     var html = "";
     for (var i = 0; i < locations.length; i++) {
       html =
         html +
-        "<a  target='blank' href=" +
+        "<a target='blank' href=" + //Using anchor tag when clicked opens up in new tab thanks to the "target=blank"
         locations[i].url +
         ">" +
         "<br>" +
@@ -134,7 +134,7 @@ $(document).ready(function() {
     return html;
   }
 
-  function addMoviesToFirebase(results) {
+  function addMoviesToFirebase(results) { //adding movies to the firebase adds the name, picture url, and where to find it.
     for (var i = 0; i < results.length; i++) {
       database.ref().push({
         name: results[i].name,
