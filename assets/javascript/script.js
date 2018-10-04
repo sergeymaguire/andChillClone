@@ -56,7 +56,59 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 
-function zipCodeReady() {// used this instead of a d
+function addMoviesToFirebase(results) {
+  for (var i = 0; i < results.length; i++) {
+    database.ref().push({
+      name: results[i].name,
+      FindOn: results[i].locations[0].display_name,
+      Image: results[i].picture
+    });
+  }
+}
+function addRecentSearch() {
+
+  database
+    .ref()
+    .orderByChild("dateAdded")
+    .limitToLast(4)
+    .on(
+      "child_added",
+      function(snapshot) {
+        var recentname = snapshot.val().name;
+        var recentImage = snapshot.val().Image;
+        var recentFind = snapshot.val().FindOn;
+        var recentMovies = "";
+        if(recentImage) {
+          recentMovies = "<div class='recentSearch col-lg-3 col-md-3 col-xs-6'>" +
+          "<h4>" +
+          recentname +
+          "</h4><img src=" +
+          recentImage +
+          "><p>Find on: " +
+          recentFind +
+          "</p></div>";
+        } else {
+          recentMovies = "<div class='recentSearch col-lg-3 col-md-3 col-xs-6'>" +
+          "<h4>" +
+          recentname +
+          "</h4>Find on: " +
+          recentFind +
+          "</p></div>";
+        }
+        $("#recent").append(recentMovies);
+      },
+      function(errorObject) {
+        console.log("Errors handled: " + errorObject.code);
+      }
+    );
+}
+
+addRecentSearch();//Show list of last four movies above
+$("#food").hide();
+
+
+function zipCodeReady() {
+  // used this instead of a d
   $("#find-movie").on("click", getRestaurantsFromYelp); //going to call getfood function on the click event
   $("#find-movie").on("click", movieSearch); //Can not execute these until the zip code is returned in the above function where zipCodeReady() is being called.
 
@@ -90,6 +142,8 @@ function zipCodeReady() {// used this instead of a d
         var html = buildMovieHtml(response.results);
         $("#movies").append(html);
         addMoviesToFirebase(response.results);
+        $("#recent").empty();
+        addRecentSearch();//add the newest searched movie to the recent div
       }
     });
   }
@@ -137,16 +191,6 @@ function zipCodeReady() {// used this instead of a d
         "</a>";
     }
     return html;
-  }
-
-  function addMoviesToFirebase(results) {
-    for (var i = 0; i < results.length; i++) {
-      database.ref().push({
-        name: results[i].name,
-        FindOn: results[i].locations[0].display_name,
-        Image: results[i].picture
-      });
-    }
   }
 
   function getRestaurantsFromYelp() {
