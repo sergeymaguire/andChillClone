@@ -25,9 +25,9 @@ function getZipCode(lat, long) {
       location: latlng
     },
     function(results, status) {
-      if (status === "OK") {
+      if (status === "OK") { 
         if (results[0]) {
-          for (j = 0; j < results[0].address_components.length; j++) {
+          for (j = 0; j < results[0].address_components.length; j++) { //for loop that looks for a zip code from the results objects array
             if (results[0].address_components[j].types[0] == "postal_code") {
               zip = results[0].address_components[j].short_name;
               return;
@@ -68,7 +68,7 @@ $(document).ready(function() {
     getMovies(queryString);
   };
 
-  function getMovies(queryURL) {
+  function getMovies(queryURL) {// this function gets the movies and appends the movie images, names, and links where to watch them at.
     console.log(queryURL);
     $.ajax({
       url: queryURL,
@@ -91,7 +91,8 @@ $(document).ready(function() {
   function buildMovieHtml(results) {
     var html = " <div class='row text-center text-lg-left'>";
 
-    for (var i = 0; i < results.length; i++) {
+    for (var i = 0; i < results.length; i++) {//dynamically creating the html with javascript to load onto the DOM
+      //Using for loop to return all movies that are searched
       if (results[i].picture) {
         html =
           html +
@@ -103,7 +104,7 @@ $(document).ready(function() {
           "</div>Showing at: " +
           getLocationsHtml(results[i].locations) +
           "</div>";
-      } else {
+      } else { // 
         html =
           html +
           "<div class='col-lg-3 col-md-4 col-xs-6'>" +
