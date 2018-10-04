@@ -153,10 +153,10 @@ function addMoviesToFirebase(results) {
     });
   }
 }
-function showLoading() {
+function showLoading() {//shows the loading icon when waiting for movies or restaurants to return
 $(".loader").show();
 }
-function hideLoading() {
+function hideLoading() {//hides the loading icon when the movies or restaurants return
   $(".loader").hide();
 }
 function getRestaurantsFromYelp() {
