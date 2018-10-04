@@ -5,7 +5,7 @@ body, head {
     max-width: 1200px;
     margin: auto;
 }
-.name, .address, .phone, .price{
+#name, #address, #phone, #price{
     margin: 5px 5px
 }
 
@@ -104,7 +104,7 @@ input:focus, textarea:focus {
 
     p {
       margin: 5px 5px;
-      color: grey;
+      color: rgb(128, 128, 128);
     } 
   
 }

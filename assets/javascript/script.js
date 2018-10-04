@@ -170,7 +170,7 @@ function getRestaurantsFromYelp() {
         var html = "";
         html =
           html +
-          "<p id='name'>" +
+          "<p id='name'>" +//gave paragraphs ID's to use them in css for styling the html
           response[i].name +
           "</p>" +
           "<p id='address'>" +
