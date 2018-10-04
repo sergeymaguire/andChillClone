@@ -160,7 +160,6 @@ function getRestaurantsFromYelp() {
     url: queryGURL,
     method: "GET"
   }).then(function(response) {
-    console.log(response.results[4].address_components[0].long_name);
     var YqueryURL = "https://dl-yelp-help.herokuapp.com/yelp?zip=" + zip;
     $.ajax({
       url: YqueryURL,
@@ -182,7 +181,7 @@ function getRestaurantsFromYelp() {
           "<p id='price'>" +
           response[i].price +
           "</p>";
-        $("#restaurant").append(html);//Putting the restaurants name, address, phone number, and the price.
+        $("#restaurant").append(html);//Putting the restaurants name, address, phone number, and the price into the restaurant div.
       }
     });
   });
