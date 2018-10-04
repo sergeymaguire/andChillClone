@@ -82,7 +82,7 @@ $(document).ready(function() {
       $("#movies").empty();
       if ($.isArray(response.results) && response.results.length) {
         var html = buildMovieHtml(response.results);
-        $("#movies").append(html);
+        $("#movies").append(html);//appends the movies to the html in the "movies" div
         addMoviesToFirebase(response.results);
       }
     });
@@ -146,7 +146,7 @@ $(document).ready(function() {
 });
 
 function getRestaurantsFromYelp() {
-  if (!zip) {
+  if (!zip) {//Displays an alert if user does not have a zipcode(they might be offline or in the middle of nowhere) 
     alert("No zip code");
     return;
   }
@@ -166,23 +166,23 @@ function getRestaurantsFromYelp() {
       url: YqueryURL,
       method: "GET"
     }).then(function(response) {
-      for (var i = 0; i < response.length; i++) {
+      for (var i = 0; i < response.length; i++) {//Dynamically building the html for the restaurants returned from yelp
         var html = "";
         html =
           html +
-          "<p class='name'>" +
+          "<p id='name'>" +
           response[i].name +
           "</p>" +
-          "<p class='address'>" +
+          "<p id='address'>" +
           response[i].location.address1 +
           "</p>" +
-          "<p class='phone'>" +
+          "<p id='phone'>" +
           response[i].display_phone +
           "</p>" +
-          "<p class='price'>" +
+          "<p id='price'>" +
           response[i].price +
           "</p>";
-        $("#restaurant").append(html);
+        $("#restaurant").append(html);//Putting the restaurants name, address, phone number, and the price.
       }
     });
   });
