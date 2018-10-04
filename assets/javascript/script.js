@@ -33,9 +33,9 @@ function getZipCode(lat, long) {
   );
 }
 
-// function initMap() {
-//   geocoder = new google.maps.Geocoder(); // sets geocoder
-// }
+function initMap() {
+  geocoder = new google.maps.Geocoder(); // sets geocoder
+}
 
 navigator.geolocation.getCurrentPosition(function(position) {
   console.log(position);
