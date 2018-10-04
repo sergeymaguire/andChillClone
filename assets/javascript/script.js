@@ -3,13 +3,13 @@
 //Step 3. get the first zip code found in the nearby locations of the current user
 //Put on global level to be used later in function(Get zip code)
 
-  var geocoder, lat, long, zip; //these are set and used
-  //This is called from the index.html script link
-  
-  function initMap() {
-    geocoder = new google.maps.Geocoder(); // sets geocoder
-  }
-  $(document).ready(function() {
+//This is called from the index.html script link
+var geocoder;
+function initMap() {
+  geocoder = new google.maps.Geocoder(); // sets geocoder
+}
+$(document).ready(function(){
+  var lat, long, zip; //these are set and used
   //Step 2. gets the current lat and long with the built in navigator(the browser object) function
   navigator.geolocation.getCurrentPosition(function(position) {
     console.log(position);
@@ -48,7 +48,7 @@
     );
   }
 
-});
+
 var config = {
   apiKey: "AIzaSyBXh_OSGPOTI4ZxdxcJL5dcV3oByDTTVwc",
   authDomain: "andchill-eb480.firebaseapp.com",
@@ -62,7 +62,7 @@ var database = firebase.database();
 
 function zipCodeReady() {
   $("#find-movie").on("click", getRestaurantsFromYelp); //going to call getfood function on the click event
-  $("#find-movie").on("click", movieSearch);
+  $("#find-movie").on("click", movieSearch);//Can not execute these until the zip code is returned in the above function where zipCodeReady() is being called.
 }
 
 function movieSearch(event) {
@@ -203,3 +203,4 @@ function getRestaurantsFromYelp() {
     });
   });
 }
+});
